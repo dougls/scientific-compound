@@ -24,7 +24,7 @@ O projeto não busca complexidade, mas sim clareza estrutural.
 ---
 
 ## Estrutura do Projeto
-
+```
 src/app/
   features/
     home/
@@ -33,6 +33,7 @@ src/app/
       compounds-list/
       compound-detail/
       data/
+```
 
 A aplicação é organizada por domínio (feature-first), não por tipo de arquivo.
 
