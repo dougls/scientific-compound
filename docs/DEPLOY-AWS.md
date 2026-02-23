@@ -106,3 +106,35 @@ Se usar OIDC (opção B), não use esses secrets; use apenas `role-to-assume` no
 ## 5. URL do site
 
 Após o primeiro deploy, a URL do site é a **CloudFront URL** da distribuição (ex.: `https://d1234abcd.cloudfront.net`) ou o domínio customizado configurado no CloudFront (CNAME + certificado ACM, se usar).
+
+---
+
+## Troubleshooting: AccessDenied ao acessar a aplicação
+
+O **AccessDenied** (403) ao abrir a URL do CloudFront quase sempre é permissão do **S3**: o bucket não está autorizando o CloudFront a ler os objetos.
+
+### Passos para corrigir
+
+1. **CloudFront usando OAC (Origin Access Control)**  
+   - **CloudFront** → sua distribuição → **Origins** → edite a origem S3.  
+   - Em **Origin access**, escolha **Origin access control settings (recommended)**.  
+   - Crie um OAC ou use um existente → salve.  
+   - Na mesma tela, use **Copy policy** (a política que o CloudFront sugera para o S3).
+
+2. **Aplicar a política no bucket S3**  
+   - **S3** → bucket (ex.: `live-front-fiap`) → **Permissions** → **Bucket policy** → **Edit**.  
+   - Cole a política que você copiou no passo anterior (já vem com o ARN da distribuição e o nome do bucket).  
+   - Se montar manualmente, use:
+     - **BUCKET_NAME:** nome do bucket (ex.: `live-front-fiap`).  
+     - **DISTRIBUTION_ARN:** `arn:aws:cloudfront::NUMERO_DA_CONTA:distribution/ID_DA_DISTRIBUICAO`  
+       (ex.: `arn:aws:cloudfront::123456789012:distribution/EPVTUN7T0ZZ3Y`).  
+   - Salve a política.
+
+3. **Aguardar propagação**  
+   - Depois de salvar a política no S3, espere alguns segundos e teste de novo.  
+   - Se ainda der 403, faça uma **invalidação** no CloudFront (**Invalidations** → Create → paths: `/*`).
+
+4. **Confirmar “Block Public Access” no S3**  
+   - Com OAC, o bucket **pode** ficar com “Block all public access” **ligado**. O acesso é só via CloudFront e pela política acima. Não é necessário “desbloquear” o bucket para acesso público geral.
+
+Se após isso ainda der AccessDenied, confira no CloudFront se a origem está realmente com **Origin access control** e se o **Distribution ARN** na bucket policy é exatamente o da distribuição que serve o site.
