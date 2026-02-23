@@ -7,7 +7,7 @@ on:
 
 env:
   NODE_VERSION: '20'
-  BUILD_OUTPUT: dist/scientific-compound
+  BUILD_OUTPUT: dist/scientific-compound/browser
   AWS_S3_BUCKET: live-front-fiap
   AWS_CLOUDFRONT_DISTRIBUTION_ID: EPVTUN7T0ZZ3Y
   AWS_REGION: us-east-1
