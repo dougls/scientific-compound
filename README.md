@@ -182,6 +182,12 @@ Ainda não existem:
 
 ---
 
+## Deploy (AWS)
+
+Existe uma pipeline de deploy para **S3 + CloudFront** via GitHub Actions. Configuração e pré-requisitos na AWS estão em [docs/DEPLOY-AWS.md](docs/DEPLOY-AWS.md).
+
+---
+
 ## Conclusão
 
 Esta branch demonstra que escalabilidade começa na arquitetura.
