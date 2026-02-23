@@ -45,7 +45,7 @@ Exemplo de bucket policy (substitua `BUCKET_NAME`, `DISTRIBUTION_ARN` e `OAC_ARN
 ### 1.2 Distribuição CloudFront
 
 1. Crie uma distribuição com **Origin** apontando para o bucket S3 (e OAC se configurado).
-2. **Default Root Object:** `index.html`.
+2. **Default Root Object:** `index.html` (não use `browser/index.html` — a pipeline publica o conteúdo da pasta `browser/` na raiz do bucket para os assets carregarem corretamente).
 3. **Error pages (opcional):** para SPA com roteamento no cliente, adicione:
    - HTTP 403 e 404 → resposta customizada: `index.html`, código 200.
 4. Anote o **Distribution ID** (ex.: `E1ABC2DEF3GHI`).
